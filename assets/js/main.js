@@ -1,39 +1,18 @@
 const geocode = new MapboxController('#geo-location');
-geocode.onResultsClear((event, locates) => {
-  getWeather(locates.latitude, locates.longitude)
+geocode.onResultsClear(onSelectedLocation);
+
+function onSelectedLocation(event, selected) {
+  console.log(selected.name)
+  getWeatherData(selected.latitude, selected.longitude)
     .then(json => console.log(json))
-});
-
-function createURL(latitude, longitude) {
-  const WEATHER_APP_ID = '6acede01c67250672b90e28d885879dd';
-  let url = [
-    'https:/',
-    'api.openweathermap.org',
-    'data',
-    '2.5',
-    'onecall'
-  ].join('/');
-
-  let params = [
-    `?lat=${latitude}`,
-    `lon=${longitude}`,
-    `appid=${WEATHER_APP_ID}`,
-    `lang=en`,
-    `exclude=hourly,minutely`,
-    `units=imperial`
-  ].join('&')
-
-  return `${url}${params}`;
 }
 
-async function getWeather(latitude, longitude) {
-  const requestOptions = {
-    method: 'GET',
-    redirect: 'follow'
-  };
-  const url = createURL(latitude, longitude);
-
-  let response = await fetch(url, requestOptions)
-  return await response.json();
-
+function addSearchHistory(selectedObject) {
+  let lat = selectedObject.latitude;
+  let lon = selectedObject.longitude;
+  let name = selectedObject.name;
+  document.querySelector('#geo-location')
+    .insertAdjacentHTML('beforeend',
+      `<button class='btn btn-dark' data-lat="${}">${selectedObject.name}</button>`)
 }
+

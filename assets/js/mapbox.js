@@ -39,14 +39,10 @@ class MapboxController {
     this.geocoderObject.on('result', event => {
       this.geocoderObject.clear();
       eventHandler.bind(this)(event, {
+        name: event.result.place_name,
         latitude: event.result.geometry.coordinates[1],
         longitude: event.result.geometry.coordinates[0],
       });
     })
-  }
-
-  onClear(eventHandler) {
-    this.geocoderObject.on('results', eventHandler.bind(this));
-
   }
 }
