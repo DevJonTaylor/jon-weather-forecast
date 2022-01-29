@@ -1,4 +1,4 @@
-const geocode = new MapboxController('#geocoder');
+const geocode = new MapboxController('#geo-location');
 geocode.onResultsClear((event, locates) => {
   getWeather(locates.latitude, locates.longitude)
     .then(json => console.log(json))

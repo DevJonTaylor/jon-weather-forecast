@@ -1,0 +1,7 @@
+#geo-location {
+    display: flex;
+}
+
+#geo-location:first-child {
+    flex: 1 1 100%;
+}

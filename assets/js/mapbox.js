@@ -29,10 +29,10 @@ const MB_OPTIONS = {
 }
 
 class MapboxController {
-  constructor(containerSelector, options = {}) {
-    this.container = document.querySelector(containerSelector);
+  constructor(containerSelector) {
     this.geocoderObject = new MapboxGeocoder(MB_OPTIONS);
     this.geocoderObject.addTo(containerSelector);
+
   }
 
   onResultsClear(eventHandler) {

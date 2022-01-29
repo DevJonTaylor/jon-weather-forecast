@@ -6,38 +6,46 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Weather Forecast</title>
     <!-- CSS Libraries -->
-
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
     <!-- Mapbox -->
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css">
+    <link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css">
 
     <!-- Custom -->
     <link rel="stylesheet" type="text/css" href="./assets/styles/main.css" />
 </head>
 <body>
-<main class="container">
-    <section class="row">
-        <div class="col-2">
-            <div id="geocoder"></div>
+    <header>
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h1 align-self-center">Weather Dashboard</span>
+                <button class="btn btn-success" data-bs-target="#searches" data-bs-toggle="offcanvas"><i class="bi bi-search"></i> Search</button>
+            </div>
+        </nav>
+    </header>
+    <section class="offcanvas offcanvas-end" tabindex="-1" id="searches" aria-labelledby="offcanvasSearches">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasSearches">Searches</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
+        <aside class="offcanvas-body">
+            <div id="geo-location"></div>
+        </aside>
     </section>
-</main>
 
+        <!-- JavaScript Libraries -->
+        <!-- Bootstrap bundled with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-<!-- JavaScript Libraries -->
+        <!-- Mapbox -->
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
 
-<!-- Bootstrap bundled with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-<!-- Mapbox -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
-
-<!-- Custom -->
-<script src="./assets/js/mapbox.js"></script>
-<script src="./assets/js/main.js"></script>
-</body>
+        <!-- Custom -->
+        <script src="./assets/js/mapbox.js"></script>
+        <script src="./assets/js/main.js"></script>
+    </body>
 </html>
