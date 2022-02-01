@@ -1,0 +1,11 @@
+#geo-location {
+    display: flex;
+}
+
+#geo-location > div {
+    flex: 1 1 100%;
+}
+
+[data-bs-toggle="tooltip"] {
+    cursor: pointer;
+}

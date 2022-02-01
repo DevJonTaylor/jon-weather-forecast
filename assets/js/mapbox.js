@@ -29,24 +29,20 @@ const MB_OPTIONS = {
 }
 
 class MapboxController {
-  constructor(containerSelector, options = {}) {
-    this.container = document.querySelector(containerSelector);
+  constructor(containerSelector) {
     this.geocoderObject = new MapboxGeocoder(MB_OPTIONS);
     this.geocoderObject.addTo(containerSelector);
+
   }
 
   onResultsClear(eventHandler) {
     this.geocoderObject.on('result', event => {
       this.geocoderObject.clear();
       eventHandler.bind(this)(event, {
+        name: event.result.place_name,
         latitude: event.result.geometry.coordinates[1],
         longitude: event.result.geometry.coordinates[0],
       });
     })
-  }
-
-  onClear(eventHandler) {
-    this.geocoderObject.on('results', eventHandler.bind(this));
-
   }
 }
