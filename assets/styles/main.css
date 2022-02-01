@@ -2,6 +2,10 @@
     display: flex;
 }
 
-#geo-location:first-child {
+#geo-location > div {
     flex: 1 1 100%;
+}
+
+[data-bs-toggle="tooltip"] {
+    cursor: pointer;
 }
