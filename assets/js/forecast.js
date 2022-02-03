@@ -213,7 +213,10 @@ class WeatherApi {
     this.options = weatherOptions;
   }
 
-  
+  /**
+   * Performs the fetch and returns a JSON object.
+   * @returns Promise<object>
+   */
   async get() {
     let response = await fetch(this.options.url);
     let json = await response.json();
@@ -222,7 +225,31 @@ class WeatherApi {
   }
 }
 
+/**
+ * This class was created to handle Weather data to html.
+ * @static @property {string} card An html string with keywords to be replaced.
+ * @static @property {string} title An html string with keywords to be replaced.
+ * @static @property {string} location An html string with keywords to be replaced.
+ * @static @property {string} date An html string with keywords to be replaced.
+ * @static @property {string} icon An html string with keywords to be replaced.
+ * @static @property {string} tempature An html string with keywords to be replaced.
+ * @static @property {string} wind An html string with keywords to be replaced.
+ * @static @property {string} humidity An html string with keywords to be replaced.
+ * @static @property {string} uvi An html string with keywords to be replaced.
+ * 
+ * @property {string} id This is used to quickly located the container card element and make adjustments.
+ * @property {string} location Representation of where we are looking.
+ * @property {string} date Using the Date object's toLocaleDateString we create the date.
+ * @property {number} tempature Tempature in fahrenheit.
+ * @property {number} humidity Percentage measurement of Humidity.
+ * @property {number} wind Wind speed in miles per hour(MPH)
+ * @property {number} uvi The measurement of UV Index.
+ * @property {string} icon the variable used to complete the url for the weather icon.
+ * @property {boolean} isLocation Is this a current date, if so then present location.
+ * @property {boolean} isDateRound Is this a current date, if so then present date with prarentheses.
+ */ 
 class Weather {
+  
   static html = {
     card: `<div class="card mt-3$notToday" data-id="$id"><div class="card-body">$title$temp$wind$humidity$uvi</div></div>`,
     title: `<h3 class="card-title">$location$date $icon</h3>`,
@@ -235,6 +262,9 @@ class Weather {
     uvi: `<p>UV Index: <span class="uvi badge $uviColor>$text</span></p>`
   }
 
+  /**
+   * @param {weatherObj} weatherObj This is the JSON converted to a literal object from the OpenWeatherMap.
+   */
   constructor(weatherObj) {
     this.id = this.generateId();
     this.location = weatherObj.location;
@@ -250,10 +280,17 @@ class Weather {
     this.isDateRound = this.isToday;
   }
 
+  /**
+   * @return {boolean} Is the date today?
+   */
   get isToday() {
     return this.date === new Date().toLocaleDateString('en-US', {month:'2-digit', day:'2-digit', year:'numeric'})
   }
 
+  /**
+   * A 5 hex password.
+   * @returns {string}
+   */
   generateId() {
     let characters = '123456790abcdef';
     let id = [];
@@ -271,17 +308,35 @@ class Weather {
     return id.sort(() => Math.random() - .5).join('');
   }
 
+  /**
+   * If regex is empty then it will return the html without running the replace method.
+   * If value is empty it will replace using the variableName for this object.
+   * If all arguments are passed then it will get the html string from the static object
+   * and replace the regex found with the value.
+   * @param {string} variableName The variable name to get from the static object's property html.
+   * @param {string|null} regex The keyword to find and replace.
+   * @param {string|null} value The value to replace regex with.
+   * @returns {string}
+   */
   getHtml(variableName, regex = null, value = null) {
     let html = Weather.html[variableName];
     return regex === null ? html : html.replace(regex, value === null ? this[variableName] : value);
   }
 
+  /**
+   * returns an array of two strings.  Find and replace.
+   * @returns {string[]}
+   */
   getLocationHtml() {
     if(this.isLocation === false) return ['$location', ''];
     
     return ['$location', this.getHtml('location', '$text')]
   }
 
+  /**
+   * returns an array of two strings.  Find and replace.
+   * @returns {string[]}
+   */
   getDateHtml() {
     let date = '';
     if(this.isToday) date = ` (${this.getHtml('date', '$text')})`;
@@ -290,10 +345,21 @@ class Weather {
     return ['$date', date];
   }
 
+  /**
+   * returns an array of two strings.  Find and replace.
+   * @returns {string[]}
+   */
   getIconHtml() {
     return ['$icon', this.getHtml('icon', '$icon')]
   }
 
+  /**
+   * returns an array of two strings.  Find and replace.
+   * @param {string[]} $location An array with two strings.  Find and replace.
+   * @param {string[]} $date An array with two strings.  Find and replace.
+   * @param {string[]} $icon An array with two strings.  Find and replace.
+   * @returns {string[]}
+   */
   getTitleHtml($location, $date, $icon) {
     return ['$title', this.getHtml('title')
       .replace(...$location)
@@ -301,12 +367,20 @@ class Weather {
       .replace(...$icon)];
   }
 
+  /**
+   * Returns a string containing the classes and attributes for UVI.
+   * @returns {string}
+   */
   getUviColor() {
     if(this.uvi < 3) return 'bg-success" data-bs-toggle="tooltip" data-bs-placement="right" title="UV is at a low level."';
     if(this.uvi < 6) return 'bg-warning" data-bs-toggle="tooltip" data-bs-placement="right" title="UV is at a moderate level."';
     return 'bg-danger pointer" data-bs-toggle="tooltip" data-bs-placement="right" title="UV is at a high level."';
   }
 
+  /**
+   * Returns the HTML String for the card and children that go inside.
+   * @returns {string}
+   */
   toHtml() {
     let $location = this.getLocationHtml();
     let $date = this.getDateHtml();
@@ -328,11 +402,20 @@ class Weather {
   }
 }
 
+/**
+ * The class controls the elements needed to update the weather cards.
+ */
 class Forecast {
   constructor() {
     this.container = document.querySelector('#forecast');
   }
 
+  /**
+   * Creates the Weather object to render the cards needed.
+   * @param {string} location The location that is being searched.
+   * @param {HTMLElement[]} forecast An Array or NodeContainer that will allow you to 
+   * iterate through the elements.
+   */
   updateForecast(location, forecast) {
     let forecastEl = this.container.querySelectorAll('article');
     for(let i in forecast) {
