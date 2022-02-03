@@ -12,8 +12,10 @@ const MB_NEIGHBORHOOD = 'neighborhood';
 const MB_ADDRESS = 'address';
 const MB_POINTS_OF_INTEREST = 'poi';
 
-
+// Setting the access token.
 mapboxgl.accessToken = MB_ACCESS_TOKEN;
+
+// Setting the MapBox options
 const MB_OPTIONS = {
   accessToken: mapboxgl.accessToken,
   types: [
@@ -28,13 +30,21 @@ const MB_OPTIONS = {
   language: 'en'
 }
 
+/**
+ * This class was created to maintain the MapBox SDK.
+ * @property {MapboxGeocoder} geocoderObject The Mapbox SDK needed for autocomplete.
+ */
 class MapboxController {
   constructor(containerSelector) {
     this.geocoderObject = new MapboxGeocoder(MB_OPTIONS);
     this.geocoderObject.addTo(containerSelector);
-
   }
 
+  /**
+   * A method to set the the needed event handler.  
+   * It also clears the search box as it passes an object
+   * @param {EventListener<{name: string, latitude: float, longitude: float}>} eventHandler 
+   */
   onResultsClear(eventHandler) {
     this.geocoderObject.on('result', event => {
       this.geocoderObject.clear();
