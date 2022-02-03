@@ -1,3 +1,10 @@
+/**
+ * Created this to properly control the URL needed to make a call.
+ * @property {boolean} isSecure Used to check if we use http or https.
+ * @property {string[]} domainParts An array used to contain the sub, main, and top level domain parts.
+ * @property {string[]} uriParts An array used to contain the path of the URL after the domain.
+ * @property {object} parameters This literal object is used to create the query string.  
+ */
 class UrlCreator {
   constructor() {
     this.isSecure = true;
@@ -6,26 +13,58 @@ class UrlCreator {
     this.parameters = {};
   }
 
+  /**
+   * If no argument is passed then it will return the current protocol as a string.
+   * If a boolean is passed it will assign it to the isSecure property and return itself.
+   * @param {boolean|undefined} isSecure 
+   * @returns {this|string} Returning itself for chaining.
+   */
   protocol(isSecure) {
+    if(isSecure === undefined) return this.isSecure === true ? 'https://' : 'http://';
     this.isSecure = isSecure;
     return this;
   }
 
+  /**
+   * If no argument is passed it will return the domain as a string.
+   * Takes the arguments and pushes them to the domainParts.  Returns itself.
+   * @param  {...string} args 
+   * @returns {this|string}
+   */
   domain(...args) {
+    if(args === undefined) return this.domainParts.join('.');
     this.domainParts.push(...args);
     return this;
   }
 
+  /**
+   * If no argument is passed it will return the uri as a string.
+   * Takes arguments passed and pushes them to uriParts.  Returns itself.
+   * @param  {...string} args 
+   * @returns {this|string}
+   */
   uri(...args) {
+    if(args === undefined) return this.uriParts.join('/');
     this.uriParts.push(...args);
     return this;
   }
 
+  /**
+   * Adds the key to the object if it is not present and assigns the value to it.
+   * If the key already exists then it replaces the value.
+   * @param {string} key 
+   * @param {string} val 
+   * @returns {this}
+   */
   param(key, val) {
     this.parameters[key] = val;
     return this;
   }
 
+  /**
+   * Takes the current parameters and return them as a query string.
+   * @return {string}
+   */
   getParams() {
     let keys = Object.keys(this.parameters);
     let vals = Object.values(this.parameters);
@@ -38,6 +77,10 @@ class UrlCreator {
     return params.join('&');
   }
 
+  /**
+   * Returns the entire url as one.
+   * @return {string}
+   */
   get url() {
     let urlParts = [this.isSecure === true ? 'https://' : 'http://'];
     
@@ -51,61 +94,126 @@ class UrlCreator {
   }
 }
 
+/**
+ * This class was created to manipulate the OpenWeatherMap API One Call.
+ * @extends {UrlCreator} 
+ */
 class WeatherOptions extends UrlCreator {
+  /**
+   * Takes the OpenWeatherApi API key.
+   * @param {string} apiKey 
+   */
   constructor(apiKey) {
     super();
     this.domain('api', 'openweathermap', 'org')
       .uri('data', '2.5', 'onecall')
-      .param('lang', 'en')
-      .param('exclude', 'minutely,hourly,current')
-      .param('units', 'imperial')
-      .param('appid', apiKey);
+      .lang('en')
+      .exclude('minutely', 'hourly', 'current')
+      .units('imperial')
+      .apiKey(apiKey);
   }
 
+  /**
+   * If no argument is passed it returns the value for lang parameter.
+   * The lang argument is used to update the lang parameter then returns itself for chaining.
+   * @param {string|undefined} lang 
+   * @returns {this|string} 
+   */
   lang(lang) {
     if(lang === undefined) return this.parameters.lang;
     return this.param('lang', lang);
   }
 
-  exclude(toExclude) {
+  /**
+   * If no argument is passed it returns the value for exclude.
+   * Updates the exclude parameter.  Takes all the arguments and joins them with ','.
+   * @param {string|undefined} toExclude 
+   * @returns {string|this}
+   */
+  exclude(...toExclude) {
     if(toExclude === undefined) return this.parameters.exclude;
-    return this.param('exclude', toExclude);
+    return this.param('exclude', toExclude.join(','));
   }
 
+  /**
+   * If no argument is passed it returns the units value.
+   * Updates the units value and returns itself for chaining.
+   * @param {string} units
+   * @returns {string|this}
+   */
   units(units) {
     if(units === undefined) return this.parameters.units;
     return this.param('units', units);
   }
 
+  /**
+   * If no argument is passed it returns the appid value.
+   * Updates the appid parameter and returns itself for chaining.
+   * @param {string} apiKey 
+   * @returns {this|string}
+   */
   apiKey(apiKey) {
     if(apiKey === undefined) return this.parameters.appid;
     return this.param('appid', apiKey);
   }
 
+  /**
+   * If no argument is passed it returns the latitude value.
+   * Sets the value for lat in the parameters.
+   * @param {string} lat 
+   * @returns {this|string}
+   */
   latitude(lat) {
     if(lat === undefined) return this.parameters.lat;
     return this.param('lat', lat);
   }
 
+  /**
+   * If no argument is passed it returns the latitude value.
+   * Sets the value for lat in the parameters.
+   * @param {string} lat 
+   * @returns {this|string}
+   */
   lat(lat) {
     return this.latitude(lat);
   }
 
+  /**
+   * If no argument is passed it returns the longitude value.
+   * Sets the value for lon in the parameters.
+   * @param {string} lon
+   * @returns {this|string}
+   */
   longitude(lon) {
     if(lon === undefined) return this.parameters.lon;
     return this.param('lon', lon);
   }
 
+  /**
+   * If no argument is passed it returns the longitude value.
+   * Sets the value for lon in the parameters.
+   * @param {string} lon
+   * @returns {this|string}
+   */
   lon(lon) {
     return this.longitude(lon);
   }
 }
 
+/**
+ * This class was created to control the calls being made to OpenWeatherMap's API.
+ * @property {WeatherOptions} options
+ */
 class WeatherApi {
+
+  /**
+   * @param {WeatherOptions} weatherOptions 
+   */
   constructor(weatherOptions) {
     this.options = weatherOptions;
   }
 
+  
   async get() {
     let response = await fetch(this.options.url);
     let json = await response.json();
@@ -230,6 +338,7 @@ class Forecast {
     for(let i in forecast) {
       let obj = forecast[i];
       let el = forecastEl[i];
+      if(el === undefined) break;
       obj.location = location;
       let weather = new Weather(obj);
       el.innerHTML = '';

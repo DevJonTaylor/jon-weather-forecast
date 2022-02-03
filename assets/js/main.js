@@ -1,14 +1,15 @@
 const WEATHER_API_KEY = '6acede01c67250672b90e28d885879dd';
-let searchContainer = new SearchHistory('#search-container');
-let offcanvasSearches = null;
+const searchContainer = new SearchHistory('#search-container');
+let offcanvasSearches = new bootstrap.Offcanvas(document.querySelector('#searches'));
 let forecastObj = new Forecast();
 
-document.onreadystatechange = function(event) {
-  if(document.readyState === 'complete') {
-    searchContainer.getLocalStorage();
+searchContainer.getLocalStorage();
+offcanvasSearches.toggle();
+    
+function pageExecution() {
+  searchContainer.getLocalStorage();
     offcanvasSearches = new bootstrap.Offcanvas(document.querySelector('#searches'));
     offcanvasSearches.toggle();
-  }
 }
 
 function onSelectedLocation(event, selected) {
