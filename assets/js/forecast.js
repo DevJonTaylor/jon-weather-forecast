@@ -255,7 +255,7 @@ class Weather {
     title: `<h3 class="card-title">$location$date $icon</h3>`,
     location: `<span class="location">$text</span>`,
     date: `<span class="date">$text</span>`,
-    icon: `<span class="weather-icon"><img src="://openweathermap.org/img/wn/$icon@2x.png" /></span>`,
+    icon: `<span class="weather-icon"><img src="//openweathermap.org/img/wn/$icon@2x.png" /></span>`,
     tempature: `<p>Temp: <span class="temp">$text</span> ºF</p>`,
     wind: `<p>Wind: <span class="wind">$text</span> MPH</p>`,
     humidity: `<p>Humidity: <span class="humidity">$text</span>%</p>`,
