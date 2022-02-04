@@ -1,17 +1,28 @@
+// API Keys
 const WEATHER_API_KEY = '6acede01c67250672b90e28d885879dd';
+const MB_ACCESS_TOKEN = 'pk.eyJ1Ijoic2hlbGx2aW5pIiwiYSI6ImNreXpienA0ZjB6NjIyenRiZGxqemZ1ajAifQ.LlOs0gTr_lC9xHG9HGrvpQ';
+
+// Setting up SearchHistory object.
 const searchContainer = new SearchHistory('#search-container');
+
+// Setting up offcanvas component from Bootstrap.
 let offcanvasSearches = new bootstrap.Offcanvas(document.querySelector('#searches'));
+
+// Setting up Forecast object.
 let forecastObj = new Forecast();
 
+// Loading localStorage.
 searchContainer.getLocalStorage();
-offcanvasSearches.toggle();
-    
-function pageExecution() {
-  searchContainer.getLocalStorage();
-    offcanvasSearches = new bootstrap.Offcanvas(document.querySelector('#searches'));
-    offcanvasSearches.toggle();
-}
 
+// Opening Offcanvas.  There was an issue when you just have it open.  
+// The backdrop does not fade when toggling to close.  Triggering it using JS to resolve.
+offcanvasSearches.toggle();
+
+/**
+ * Creates a new Search object, adds it to SearchHistory object, renders Search History and weather.
+ * @param {Event} event Event passed by MapBox.  It is not used.  Passed it for scability.
+ * @param {{name: string, latitude: float, longitude: float}} selected Object passed by MapboxController.
+ */
 function onSelectedLocation(event, selected) {
   let search = new Search(selected.name, selected.latitude, selected.longitude);
   searchContainer
@@ -21,6 +32,12 @@ function onSelectedLocation(event, selected) {
   showWeather(search);
 }
 
+/**
+ * Triggered when a previously searched location is clicked.
+ * Takes the Search object and renders the history and weather again.
+ * @param {Event} event Event object passed by the EventListener.
+ * @returns {void}
+ */
 function onSearchAgain(event) {
   let el = event.target;
   if(el.dataset.id === undefined) return;
@@ -30,6 +47,11 @@ function onSearchAgain(event) {
   showWeather(search);
 }
 
+/**
+ * Takes a Search object and performs the fetch for weather data.
+ * Then it renders the weather HTML cards.
+ * @param {Search} search 
+ */
 function showWeather(search) {
   let weatherOptions = new WeatherOptions(WEATHER_API_KEY);
   weatherOptions
@@ -49,7 +71,12 @@ function showWeather(search) {
   offcanvasSearches.toggle();
 }
 
-searchContainer.container.addEventListener('click', onSearchAgain)
+// Setting Mapbox access token.
+MapboxController.accessToken(MB_ACCESS_TOKEN);
 
+// Creating MapboxController object.
 const geocode = new MapboxController('#geo-location');
+
+// Setting the two EventListeners needed.
+searchContainer.container.addEventListener('click', onSearchAgain)
 geocode.onResultsClear(onSelectedLocation);

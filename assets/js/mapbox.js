@@ -1,6 +1,3 @@
-// Access Token
-const MB_ACCESS_TOKEN = accessToken = 'pk.eyJ1Ijoic2hlbGx2aW5pIiwiYSI6ImNreXpienA0ZjB6NjIyenRiZGxqemZ1ajAifQ.LlOs0gTr_lC9xHG9HGrvpQ';
-
 // Mapbox data-types.
 const MB_COUNTRY = 'country';
 const MB_REGION = 'region';
@@ -11,9 +8,6 @@ const MB_LOCALITY = 'locality';
 const MB_NEIGHBORHOOD = 'neighborhood';
 const MB_ADDRESS = 'address';
 const MB_POINTS_OF_INTEREST = 'poi';
-
-// Setting the access token.
-mapboxgl.accessToken = MB_ACCESS_TOKEN;
 
 // Setting the MapBox options
 const MB_OPTIONS = {
@@ -35,6 +29,17 @@ const MB_OPTIONS = {
  * @property {MapboxGeocoder} geocoderObject The Mapbox SDK needed for autocomplete.
  */
 class MapboxController {
+  /**
+   * Sets the access token to the MapboxGeocoder SDK.
+   * @param {string} accessToken
+   */
+  static accessToken(accessToken) {
+    mapboxgl.accessToken = accessToken;
+  }
+
+  /**
+   * @param {string} containerSelector CSS Selector to access the container for the MapBox search box..
+   */
   constructor(containerSelector) {
     this.geocoderObject = new MapboxGeocoder(MB_OPTIONS);
     this.geocoderObject.addTo(containerSelector);
