@@ -71,12 +71,14 @@ function showWeather(search) {
   offcanvasSearches.toggle();
 }
 
-// Setting Mapbox access token.
-MapboxController.accessToken(MB_ACCESS_TOKEN);
+// Setting Mapbox Options
+const mbOptions = new MapboxOptions();
+mbOptions.accessToken(MB_ACCESS_TOKEN)
+  .types(MB_COUNTRY, MB_REGION, MB_PLACE, MB_POSTAL_CODE, MB_LOCALITY, MB_NEIGHBORHOOD);
 
-// Creating MapboxController object.
-const geocode = new MapboxController('#geo-location');
+  // Creating MapboxController object.
+const geocode = new MapboxController('#geo-location', mbOptions.toObject);
 
 // Setting the two EventListeners needed.
-searchContainer.container.addEventListener('click', onSearchAgain)
 geocode.onResultsClear(onSelectedLocation);
+searchContainer.container.addEventListener('click', onSearchAgain)

@@ -9,19 +9,90 @@ const MB_NEIGHBORHOOD = 'neighborhood';
 const MB_ADDRESS = 'address';
 const MB_POINTS_OF_INTEREST = 'poi';
 
-// Setting the MapBox options
-const MB_OPTIONS = {
-  accessToken: mapboxgl.accessToken,
-  types: [
-    MB_COUNTRY,
-    MB_REGION,
-    MB_PLACE,
-    MB_POSTAL_CODE,
-    MB_LOCALITY,
-    MB_NEIGHBORHOOD
-  ].join(','),
-  autocomplete: true,
-  language: 'en'
+/**
+ * This class was created because of an issue with access token not loading properly into the SDK.
+ * @property {{types: string[], autocomplete: boolean, language: string, accessToken: string}}
+ */
+class MapboxOptions {
+  constructor() {
+    this.options = {
+      types: [],
+      autocomplete: true,
+      language: 'en',
+      accessToken: ''
+    }
+  }
+
+  /**
+   * If no argument is passed it will return a string separating the types with a comma.
+   * Other wise it will assign the strings passed as the types and return this for chaining.
+   * @param  {...string} type Use one of the constant Mapbox DataTypes created.
+   * @returns {this|string}
+   */
+  types(...type) {
+    if(type.length === 0) return this.options.types.join(',');
+    this.options.types.push(...type);
+
+    return this;
+  }
+
+  /**
+   * If no argument is passed this will return the value of autocomplete.
+   * Otherwise assigns the new value and returns this object for chaining.
+   * @param {boolean} isTrue 
+   * @returns {this|boolean}
+   */
+  autocomplete(isTrue) {
+    if(isTrue === undefined) return this.options.autocomplete;
+    this.options.autocomplete = isTrue;
+
+    return this;
+  }
+
+  /**
+   * If no argument is passed returns the value of language.
+   * Otherwise it assigns the new value and returns this for chaining.
+   * @param {string} langString 
+   * @returns {this|string}
+   */
+  language(langString) {
+    if(langString === undefined) return this.options.language;
+    this.options.language = langString;
+
+    return this;
+  }
+
+  /**
+   * If no argument is passed the value from mapboxgl.accessToken is returned.
+   * Otherwise the new value is set and this object is returned for chaining.
+   * @param {string} accessToken 
+   * @returns {this|string}
+   */
+  accessToken(accessToken) {
+    if(accessToken === undefined) return mapboxgl.accessToken;
+    mapboxgl.accessToken = accessToken;
+
+    return this;
+  }
+
+  /**
+   * @return {{types: string[], autocomplete: boolean, language: string, accessToken: string}}
+   */
+  get toObject() {
+    return {
+      types: this.types(),
+      autocomplete: this.autocomplete(),
+      language: this.language(),
+      accessToken: mapboxgl.accessToken
+    }
+  }
+
+  /**
+   * @returns {string} Serialized string of this object.
+   */
+  toString() {
+    return JSON.stringify(this.toObject);
+  }
 }
 
 /**
@@ -30,19 +101,11 @@ const MB_OPTIONS = {
  */
 class MapboxController {
   /**
-   * Sets the access token to the MapboxGeocoder SDK.
-   * @param {string} accessToken
-   */
-  static accessToken(accessToken) {
-    mapboxgl.accessToken = accessToken;
-  }
-
-  /**
    * @param {string} containerSelector CSS Selector to access the container for the MapBox search box..
    */
-  constructor(containerSelector) {
-    this.geocoderObject = new MapboxGeocoder(MB_OPTIONS);
-    this.geocoderObject.addTo(containerSelector);
+  constructor(containerSelector, mapboxOptions) {
+    this.geocoderObject = new MapboxGeocoder(mapboxOptions);
+    this.geocoderObject.addTo(document.querySelector(containerSelector));
   }
 
   /**
