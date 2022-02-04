@@ -1,11 +1,11 @@
 # Weather Forecast
-![HTML 10.6%](https://img.shields.io/badge/HTML-10.6%25-%23dd4b25?logo=html5&style=plastic)
-![CSS 0.5%](https://img.shields.io/badge/CSS-0.5%25-%23146eb0?logo=css3&style=plastic)
-![JAVASCRIPT 88.9%](https://img.shields.io/badge/JavaScript-88.9%25-%23e9d44d?logo=javascript&style=plastic)
+![HTML 9.9%](https://img.shields.io/badge/HTML-9.9%25-%23dd4b25?logo=html5&style=plastic)
+![CSS 0.4%](https://img.shields.io/badge/CSS-0.4%25-%23146eb0?logo=css3&style=plastic)
+![JAVASCRIPT 89.7%](https://img.shields.io/badge/JavaScript-89.7%25-%23e9d44d?logo=javascript&style=plastic)
 ![Mapbox v2.6.1](https://img.shields.io/badge/Mapbox-v2.6.1-%230769ad?logo=mapbox&style=plastic)
 ![Bootstrap v5.1.3](https://img.shields.io/badge/Bootstrap-v5.1.3-%238211f9?logo=bootstrap&style=plastic)
 
-I wanted to use some APIs to create a project and I had not used Bootstrap 5 yet.  So taking the chance to take Bootstrap 5 out for a spin as well as OpenWeatherMap's API seemed really amazing and fun to use.  I took an (Object Oriented Programming) OOP approach and created classes to perform my tasks.  These classes created endpoints and retrieved the data.  Once they have the data the next step was to render the HTML.  Then save search history to localStorage so we can come back to these results if the user wanted.  Bootstrap was nice to utilize and created a responsive UI while utilizing the screen space to the maximum.  I implemented a second API from Mapbox to provide a better user experience with autocomplete while they type out the location.  This worked out really well as it provides the GeoCodes and makes it easier to find the location they wanted, allowing us to utilize OpenWeatherMap's API to the its fullest!
+I wanted to use some APIs to create a project and I had not used Bootstrap 5 yet.  So taking the chance to take Bootstrap 5 out for a spin as well as OpenWeatherMap's API seemed really amazing and fun to use.  I took an Object Oriented Programming (OOP) approach and created classes to perform my tasks.  These classes created endpoints and retrieved the data.  Once they have the data the next step was to render the HTML.  Then save search history to localStorage so we can come back to these results if the user wanted.  Bootstrap was nice to utilize and created a responsive UI while utilizing the screen space to the maximum.  I implemented a second API from Mapbox to provide a better user experience with autocomplete while they type out the location.  This worked out really well as it provides the GeoCodes and makes it easier to find the location they wanted, allowing us to utilize OpenWeatherMap's API to the its fullest!
 
 ## Goals
 - [x] Weather conditions are presented by searched
