@@ -5,7 +5,7 @@
 ![Mapbox v2.6.1](https://img.shields.io/badge/Mapbox-v2.6.1-%230769ad?logo=mapbox&style=plastic)
 ![Bootstrap v5.1.3](https://img.shields.io/badge/Bootstrap-v5.1.3-%238211f9?logo=bootstrap&style=plastic)
 
-Taking a chance to use Bootstrap 5 out for a spin as well as OpenWeatherMap's API.  I created classes to control the create URLs, fetch data, render HTML dynamically, as well as use localStorage to allow search histories to be searched again.  I created a nice responsive UI while utilizing the screen space to the maximum.  I implemented a second API from Mapbox to provide an autocomplete experience while they type out the location.  This worked out really well as it provides the GeoCodes so that we can use OpenWeatherMap's data to the its fullest!
+I wanted to use some APIs to create a project and I had not used Bootstrap 5 yet.  So taking the chance to take Bootstrap 5 out for a spin as well as OpenWeatherMap's API seemed really amazing and fun to use.  I took an (Object Oriented Programming) OOP approach and created classes to perform my tasks.  These classes created endpoints and retrieved the data.  Once they have the data the next step was to render the HTML.  Then save search history to localStorage so we can come back to these results if the user wanted.  Bootstrap was nice to utilize and created a responsive UI while utilizing the screen space to the maximum.  I implemented a second API from Mapbox to provide a better user experience with autocomplete while they type out the location.  This worked out really well as it provides the GeoCodes and makes it easier to find the location they wanted, allowing us to utilize OpenWeatherMap's API to the its fullest!
 
 ## Goals
 - [x] Weather conditions are presented by searched
