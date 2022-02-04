@@ -4,6 +4,7 @@
 ![JAVASCRIPT 88.9%](https://img.shields.io/badge/JavaScript-88.9%25-%23e9d44d?logo=javascript&style=plastic)
 ![Mapbox v2.6.1](https://img.shields.io/badge/Mapbox-v2.6.1-%230769ad?logo=mapbox&style=plastic)
 ![Bootstrap v5.1.3](https://img.shields.io/badge/Bootstrap-v5.1.3-%238211f9?logo=bootstrap&style=plastic)
+
 Taking a chance to use Bootstrap 5 out for a spin as well as OpenWeatherMap's API.  I created classes to control the create URLs, fetch data, render HTML dynamically, as well as use localStorage to allow search histories to be searched again.  I created a nice responsive UI while utilizing the screen space to the maximum.  I implemented a second API from Mapbox to provide an autocomplete experience while they type out the location.  This worked out really well as it provides the GeoCodes so that we can use OpenWeatherMap's data to the its fullest!
 
 ## Goals
